@@ -3,7 +3,7 @@ db.Promise = global.Promise
 
 console.log('Successful database connection...')
 
-const url = process.env.MONGOLAB_URI ? process.env.MONGOLAB_URI : 'mongodb://root:mongo1234@localhost:27017/mymoneydb'
+const url = process.env.MONGODB_URI ? process.env.MONGODB_URI : 'mongodb://root:mongo1234@localhost:27017/mymoneydb'
 
 module.exports = db.connect(url, { auth: { authdb:"admin" }, useMongoClient: true })
 
