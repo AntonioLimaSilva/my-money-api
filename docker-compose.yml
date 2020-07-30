@@ -1,0 +1,13 @@
+version: '3'
+
+services:
+  mongo:
+    image: mongo:3.4
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: mongo1234
+    ports:
+      - 27017:27017
+    volumes:
+      - /Users/luciano/Documents/ReactJS/MongoDB2:/docker-entrypoint-initdb.d/init-mongo-js:ro
+      - /Users/luciano/Documents/ReactJS/MongoDB2:/data/db
