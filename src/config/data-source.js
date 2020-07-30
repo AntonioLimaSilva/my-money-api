@@ -5,7 +5,7 @@ console.log('Successful database connection...')
 
 const url = process.env.MONGODB_URI ? process.env.MONGODB_URI : 'mongodb://root:mongo1234@localhost:27017/mymoneydb'
 
-module.exports = db.connect(url, { auth: { authdb:"admin" }, useMongoClient: true })
+module.exports = db.connect(url, { useMongoClient: true })
 
 db.Error.messages.general.required = "O atributo '{PATH}' é obrigatório."
 db.Error.messages.Number.min = 
