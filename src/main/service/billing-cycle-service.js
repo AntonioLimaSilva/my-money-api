@@ -6,17 +6,16 @@ billingCycle.updateOptions({new: true, runValidators: true})
 billingCycle.after('post', errorHandler).after('put', errorHandler)
 
 billingCycle.route('summary', (req, res, next) => {
-    billingCycle.aggregate({
-        $project: {totalCredit: {$sum: "$credits.value"}, totalDebit: {$sum: "$debits.value"}}
-    }, {
-        $group: {_id: null, totalCredit: {$sum: "$totalCredit"}, totalDebit: {$sum: "$totalDebit"}}
-    }, {
+    billingCycle.aggregate([{
+        $project: { totalCredit: { $sum: "$credits.value" }, totalDebit: { $sum: "$debits.value" } }
+    },
+    {   
         $project: {_id: 0, totalCredit: 1, totalDebit: 1}
-    }, (error, result) => {
+    }], (error, result) => {
         if(error) {
             res.status(500).json({errors: [error]})
         } else {
-            res.json(result[0] || { credit: 0, debit: 0 })
+            res.json(result[0] || { debits: 0 })
         }
     })
 })
