@@ -8,9 +8,11 @@ module.exports = (server) => {
     protectedApi.use(auth)
 
     const billingSicle = require('../main/service/billing-cycle-service')
-    const userSignup = require('../main/service/user-service')
+    const user = require('../main/service/user-service')
     billingSicle.register(protectedApi, '/billingCycles')
-    protectedApi.post('/signup', userSignup)
+    protectedApi.post('/signup', user.signup)
+    protectedApi.put('/users', user.update)
+    protectedApi.get('/users', user.findByEmail)
     
 
     const openApi = express.Router()
