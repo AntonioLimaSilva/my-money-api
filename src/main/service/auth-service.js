@@ -2,7 +2,7 @@ const _ = require('lodash')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
 const User = require('../api/user')
-const env = require('../../.env')
+const env = require('../../env/environment')
 
 const sendErrorsFromDB = (res, dbErrors) => {
     const errors = []
@@ -18,8 +18,7 @@ const login = (req, res, next) => {
         if (err) {
             return sendErrorsFromDB(res, err)
         } else if (user && bcrypt.compareSync(password, user.password)) {
-            const authSecret = process.env.AUTH_SECRET || env.authSecret
-            const token = jwt.sign(user, authSecret, {
+            const token = jwt.sign(user, env.authSecret, {
                 expiresIn: "1 day"
             })
             const { name, email } = user
