@@ -1,11 +1,10 @@
 const db = require('mongoose')
+const env = require('../env/environment')
 db.Promise = global.Promise
 
 console.log('Successful database connection...')
 
-const url = process.env.MONGODB_LAB_URI || 'mongodb://root:mongo1234@localhost:27017/mymoneydb'
-
-module.exports = db.connect(url, { useMongoClient: true })
+module.exports = db.connect(env.url, { useMongoClient: true })
 
 db.Error.messages.general.required = "O atributo '{PATH}' é obrigatório."
 db.Error.messages.Number.min = "O '{VALUE}' informado é menor que o limite mínimo de '{MIN}'."
