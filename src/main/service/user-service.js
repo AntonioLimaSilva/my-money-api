@@ -60,7 +60,6 @@ const findByEmail = (req, res, next) => {
 
 const update = (req, res, next) => {
     const request = values(req)
-    console.log('REQUEST: ', request)
 
     if (!request.email.match(emailRegex)) {
         return res.status(400).send({ errors: ['O e-mail informado está inválido'] })
