@@ -22,4 +22,4 @@ const billingCycle = new mongoose.Schema({
     debits: [debitSchema]
 })
 
-module.exports = restful.model('billingCycle', billingCycle)
+module.exports = restful.model('BillingCycle', billingCycle)

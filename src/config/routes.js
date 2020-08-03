@@ -7,19 +7,18 @@ module.exports = (server) => {
     server.use('/api', protectedApi)
     protectedApi.use(auth)
 
-    const billingSicle = require('../main/service/billing-cycle-service')
+    const billingCycles = require('../main/service/billing-cycle-service')
     const user = require('../main/service/user-service')
-    billingSicle.register(protectedApi, '/billingCycles')
-    protectedApi.post('/signup', user.signup)
-    protectedApi.put('/users', user.update)
-    protectedApi.get('/users', user.findByEmail)
-    
+    billingCycles.register(protectedApi, '/billingCycles')
+    protectedApi.route('/signup').post(user.signup)
+    protectedApi.route('/users').put(user.update)
+    protectedApi.route('/users').get(user.findByEmail)
 
     const openApi = express.Router()
     server.use('/open-api', openApi)
 
     const authService = require('../main/service/auth-service')
-    openApi.post('/login', authService.login)
-    openApi.post('/validateToken', authService.validateToken)
+    openApi.route('/login').post(authService.login)
+    openApi.route('/validateToken').post(authService.validateToken)
 
 }

@@ -5,7 +5,7 @@ const User = require('../api/user')
 const emailRegex = /\S+@\S+\.\S+/
 const passwordRegex = /((?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%]).{6,20})/
 
-const signup = (req, res, next) => {
+const signup = (req, res) => {
     const body = userRequest(req)
     const passwordHash = transformPasswordHash(body)
 
@@ -24,8 +24,8 @@ const signup = (req, res, next) => {
                     .then(result => {
                         return res.status(201).send({ message: 'Usuário cadastro com sucesso!' })
                     }).catch(err => {
-                        return sendErrorsFromDB(res, err)
-                    })
+                    return sendErrorsFromDB(res, err)
+                })
             } else {
                 res.status(400).send({errors: ['Usuário já cadastrado.']})
             }
@@ -35,7 +35,7 @@ const signup = (req, res, next) => {
         })
 }
 
-const findByEmail = (req, res, next) => {
+const findByEmail = (req, res) => {
     let email = req.query.email
     User.findOne({email}).then(result => {
         return res.status(200).send(result)
@@ -44,7 +44,7 @@ const findByEmail = (req, res, next) => {
     })
 }
 
-const update = (req, res, next) => {
+const update = (req, res) => {
     const body = userRequest(req)
     const passwordHash = transformPasswordHash(body)
 
@@ -58,8 +58,8 @@ const update = (req, res, next) => {
         .then(result => {
             return res.status(200).send(result)
         }).catch(err => {
-            return sendErrorsFromDB(res, err)
-        });
+        return sendErrorsFromDB(res, err)
+    });
 }
 
 const sendErrorsFromDB = (res, dbErrors) => {

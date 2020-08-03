@@ -1,13 +1,13 @@
-const billingCycle = require('../api/billing-cycle')
+const BillingCycle = require('../api/billing-cycle')
 const errorHandler = require('../common/error-handler')
 
-billingCycle.methods(['get', 'post', 'put', 'delete'])
-billingCycle.updateOptions({new: true, runValidators: true})
-billingCycle.after('post', errorHandler).after('put', errorHandler)
+BillingCycle.methods(['get', 'post', 'put', 'delete'])
+BillingCycle.updateOptions({new: true, runValidators: true})
+BillingCycle.after('post', errorHandler).after('put', errorHandler)
 
-billingCycle.route('summary', (req, res, next) => {
+BillingCycle.route('summary', (req, res, next) => {
     const month = monthCurrent();
-    billingCycle.aggregate([
+    BillingCycle.aggregate([
         {
             $match: {month}
         },
@@ -28,9 +28,9 @@ billingCycle.route('summary', (req, res, next) => {
     })
 })
 
-billingCycle.route('summary-shared', (req, res, next) => {
+BillingCycle.route('summary-shared', (req, res, next) => {
     const month = monthCurrent()
-    billingCycle.aggregate([
+    BillingCycle.aggregate([
         {
             $match: {month}
         },
@@ -61,10 +61,10 @@ billingCycle.route('summary-shared', (req, res, next) => {
     })
 })
 
-billingCycle.route('summary-individual-by-person', (req, res, next) => {
+BillingCycle.route('summary-individual-by-person', (req, res, next) => {
     const month = monthCurrent()
     const responsibleName = req.query.responsibleName || ''
-    billingCycle.aggregate([
+    BillingCycle.aggregate([
         {
             $match: { month }
         },
@@ -89,8 +89,8 @@ billingCycle.route('summary-individual-by-person', (req, res, next) => {
     })
 })
 
-billingCycle.route('count', (req, res, next) => {
-    billingCycle.count((error, value) => {
+BillingCycle.route('count', (req, res, next) => {
+    BillingCycle.count((error, value) => {
         if (error) {
             res.status(500).json({errors: [error]})
         } else {
@@ -103,4 +103,4 @@ function monthCurrent() {
     return new Date().getMonth() + 1;
 }
 
-module.exports = billingCycle
+module.exports = BillingCycle
