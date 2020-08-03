@@ -24,8 +24,8 @@ const signup = (req, res, next) => {
                     .then(result => {
                         return res.status(201).send({ message: 'Usuário cadastro com sucesso!' })
                     }).catch(err => {
-                    return sendErrorsFromDB(res, err)
-                })
+                        return sendErrorsFromDB(res, err)
+                    })
             } else {
                 res.status(400).send({errors: ['Usuário já cadastrado.']})
             }
