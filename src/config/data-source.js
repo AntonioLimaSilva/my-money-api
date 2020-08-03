@@ -2,9 +2,9 @@ const db = require('mongoose')
 const env = require('../env/environment')
 db.Promise = global.Promise
 
-console.log('Successful database connection...')
-
-module.exports = db.connect(env.url, { useUnifiedTopology: true, useNewUrlParser: true})
+module.exports = db.connect(env.url, { useUnifiedTopology: true, useNewUrlParser: true })
+    .then(() => console.log('Connecting to database successful'))
+    .catch(err => console.error('Could not connect to mongo DB', err));
 
 db.Error.messages.general.required = "O atributo '{PATH}' é obrigatório."
 db.Error.messages.Number.min = "O '{VALUE}' informado é menor que o limite mínimo de '{MIN}'."

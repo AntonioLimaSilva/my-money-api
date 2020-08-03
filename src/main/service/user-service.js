@@ -16,32 +16,31 @@ const signup = (req, res, next) => {
 
     const { email } = body
 
-    User.findOne({ email }, (err, user) => {
-        if (err) {
-            return sendErrorsFromDB(res, err)
-        } else if (user) {
-            return res.status(400).send({errors: ['Usuário já cadastrado.']})
-        } else {
-            const newUser = new User({...body, password: passwordHash })
-            newUser.save(err => {
-                if (err) {
+    User.findOne({ email })
+        .then(userDB => {
+            if (!userDB) {
+                const newUser = new User({ ...body, password: passwordHash })
+                newUser.save()
+                    .then(result => {
+                        return res.status(201).send({ message: 'Usuário cadastro com sucesso!' })
+                    }).catch(err => {
                     return sendErrorsFromDB(res, err)
-                } else {
-                    res.status(201).send({message: 'Usuário cadastro com sucesso!'})
-                }
-            })
-        }
-    })
+                })
+            } else {
+                res.status(400).send({errors: ['Usuário já cadastrado.']})
+            }
+        })
+        .catch(err => {
+            return sendErrorsFromDB(res, err)
+        })
 }
 
 const findByEmail = (req, res, next) => {
     let email = req.query.email
-    User.findOne({email}, (err, result) => {
-        if (err) {
-            return sendErrorsFromDB(res, err)
-        } else {
-            return res.status(200).send(result)
-        }
+    User.findOne({email}).then(result => {
+        return res.status(200).send(result)
+    }).catch(err => {
+        return sendErrorsFromDB(res, err)
     })
 }
 
@@ -54,13 +53,13 @@ const update = (req, res, next) => {
         return res.status(400).send(error.fieldErrors)
     }
 
-    User.findOneAndUpdate(req.params.id, { ...body, password: passwordHash }, (err, result) => {
-        if (err) {
+    User.findOneAndUpdate(req.params.id, { ...body, password: passwordHash },
+        {new: true, useFindAndModify: false, runValidators: true})
+        .then(result => {
+            return res.status(200).send(result)
+        }).catch(err => {
             return sendErrorsFromDB(res, err)
-        } else {
-            return res.status(201).send(result);
-        }
-    });
+        });
 }
 
 const sendErrorsFromDB = (res, dbErrors) => {
