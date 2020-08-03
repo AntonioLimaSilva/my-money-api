@@ -4,7 +4,7 @@ db.Promise = global.Promise
 
 console.log('Successful database connection...')
 
-module.exports = db.connect(env.url, {auth: { authdb:"admin" }, useMongoClient: true })
+module.exports = db.connect(env.url, { useUnifiedTopology: true, useNewUrlParser: true})
 
 db.Error.messages.general.required = "O atributo '{PATH}' é obrigatório."
 db.Error.messages.Number.min = "O '{VALUE}' informado é menor que o limite mínimo de '{MIN}'."
