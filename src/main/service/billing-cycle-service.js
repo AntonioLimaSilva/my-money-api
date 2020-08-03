@@ -6,7 +6,11 @@ billingCycle.updateOptions({new: true, runValidators: true})
 billingCycle.after('post', errorHandler).after('put', errorHandler)
 
 billingCycle.route('summary', (req, res, next) => {
+    const month = new Date().getMonth()
     billingCycle.aggregate([
+        {
+            $match : { month }
+        },
         {
             $project: {
                 totalDebit: { $sum: "$debits.value" },
@@ -25,7 +29,11 @@ billingCycle.route('summary', (req, res, next) => {
 })
 
 billingCycle.route('summary-shared', (req, res, next) => {
+    const month = new Date().getMonth()
     billingCycle.aggregate([
+        {
+            $match : { month }
+        },
         {
             $addFields: {
                 debits: {
