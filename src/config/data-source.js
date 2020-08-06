@@ -1,7 +1,7 @@
 const db = require('mongoose')
 const env = require('../env/environment')
 db.Promise = global.Promise
-
+console.log('URL: ', env.url)
 module.exports = db.connect(env.url, { useUnifiedTopology: true, useNewUrlParser: true, useCreateIndex: true })
     .then(() => console.log('Connecting to database successful'))
     .catch(err => console.error('Could not connect to mongo DB', err));
