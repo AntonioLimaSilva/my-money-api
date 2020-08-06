@@ -1,6 +1,6 @@
 const db = require('mongoose')
-// const env = require('../env/environment')
 db.Promise = global.Promise
+
 module.exports = db.connect(process.env.MONGODB_LAB_URI, { useUnifiedTopology: true, useNewUrlParser: true })
     .then(() => console.log('Connecting to database successful'))
     .catch(err => console.error('Could not connect to mongo DB', err));
