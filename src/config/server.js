@@ -1,5 +1,5 @@
-const env = require('../env/environment')
-const port = env.port
+// const env = require('../env/environment')
+const port = process.env.PORT || 5001
 
 const bodyParser = require('body-parser')
 const queryParser = require('express-query-int')
