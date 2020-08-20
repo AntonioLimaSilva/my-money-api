@@ -19,7 +19,7 @@ BillingCycle.route('summary', (req, res, next) => {
         },
         {
             $project: {_id: 0, totalDebit: 1, totalCredit: 1}
-        }], (error, result) => {
+        }]).exec((error, result) => {
         if (error) {
             res.status(500).json({errors: [error]})
         } else {
@@ -52,7 +52,7 @@ BillingCycle.route('summary-shared', (req, res, next) => {
         },
         {
             $project: {_id: 0, subTotalDebit: 1}
-        }], (error, result) => {
+        }]).exec((error, result) => {
         if (error) {
             res.status(500).json({errors: [error]})
         } else {
@@ -80,7 +80,7 @@ BillingCycle.route('summary-individual-by-person', (req, res, next) => {
         {
             $project: {_id: 0, totalIndividual: 1}
         }
-    ], (error, result) => {
+    ]).exec((error, result) => {
         if (error) {
             res.status(500).json({errors: [error]})
         } else {
