@@ -5,6 +5,18 @@ BillingCycle.methods(['get', 'post', 'put', 'delete'])
 BillingCycle.updateOptions({new: true, runValidators: true})
 BillingCycle.after('post', errorHandler).after('put', errorHandler)
 
+BillingCycle.route('resume', (req, res) => {
+    const query = BillingCycle.find({}).select({'name': 1, 'year': 2});
+
+    query.exec((err, result) => {
+        if (err) {
+            res.status(500).json({errors: [err]})
+        } else {
+            res.status(200).send(result)
+        }
+    })
+})
+
 BillingCycle.route('summary', (req, res, next) => {
     const month = monthCurrent();
     BillingCycle.aggregate([
