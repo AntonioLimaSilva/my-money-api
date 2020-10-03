@@ -5,6 +5,7 @@ const bodyParser = require('body-parser')
 const queryParser = require('express-query-int')
 const express = require('express')
 const server = express()
+server.disable("x-powered-by");
 
 const allowCors = require('./cors')
 
